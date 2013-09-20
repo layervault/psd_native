@@ -3,26 +3,33 @@
 VALUE psd_native_combine_rgb_channel(VALUE self) {
   printf("PROCESSING RGB\n");
 
-  int num_pixels = FIX2INT(rb_iv_get(self, "@num_pixels"));
-  int pixel_step = FIX2INT(rb_funcall(self, rb_intern("pixel_step"), 0));
+  uint32_t num_pixels = FIX2UINT(rb_iv_get(self, "@num_pixels"));
+  uint32_t pixel_step = FIX2UINT(rb_funcall(self, rb_intern("pixel_step"), 0));
+
+  // printf("PIXELS = %d, STEP = %d\n", num_pixels, pixel_step);
 
   VALUE channels_info = rb_iv_get(self, "@channels_info");
   VALUE channel_data = rb_iv_get(self, "@channel_data");
-  int channel_count = FIX2INT(rb_funcall(channels_info, rb_intern("length"), 0));
-  int channel_length = FIX2INT(rb_iv_get(self, "@channel_length"));
+  uint32_t channel_length = FIX2UINT(rb_iv_get(self, "@channel_length"));
+
+  // printf("CHANNELS = %d\n", channel_length);
   
   VALUE channel;
 
-  int i, j, r, g, b, a, val;
+  int i, j, r, g, b, a;
+  uint32_t val;
 
   // Loop through every pixel in the image
   for (i = 0; i < num_pixels; i += pixel_step) {
     r = g = b = 0;
     a = 255;
 
+    // printf("%d\n", i);
+
     // And every channel for every pixel
-    for (j = 0; j < channel_count; j++) {
-      val = FIX2INT(rb_ary_entry(channel_data, i + (channel_length * j)));
+    for (j = 0; j < channel_length; j++) {
+      val = FIX2UINT(rb_ary_entry(channel_data, i + (channel_length * j)));
+      // printf("%d\n", val);
 
       // Get the hash containing channel info
       channel = rb_ary_entry(channels_info, j);
