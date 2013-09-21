@@ -1,6 +1,8 @@
 #include "psd_native_ext.h"
 
 VALUE psd_native_combine_rgb_channel(VALUE self) {
+  psd_logger("debug", "Beginning RGB processing");
+  
   uint32_t num_pixels = FIX2UINT(rb_iv_get(self, "@num_pixels"));
   uint32_t pixel_step = FIX2UINT(rb_funcall(self, rb_intern("pixel_step"), 0));
 
@@ -30,7 +32,7 @@ VALUE psd_native_combine_rgb_channel(VALUE self) {
       }
     }
 
-    rb_ary_push(rb_iv_get(self, "@pixel_data"), BUILD_PIXEL(r, g, b, a));
+    rb_ary_push(rb_iv_get(self, "@pixel_data"), INT2FIX(BUILD_PIXEL(r, g, b, a)));
   }
 
   return Qnil;

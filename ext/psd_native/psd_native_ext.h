@@ -13,5 +13,7 @@ typedef uint32_t PIXEL;
 #include "image_mode_rgb.h"
 
 void Init_psd_native();
+VALUE psd_class();
+void psd_logger(char* level, char* message);
 
 #endif
