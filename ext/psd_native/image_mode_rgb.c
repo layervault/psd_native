@@ -1,8 +1,6 @@
 #include "psd_native_ext.h"
 
 VALUE psd_native_combine_rgb_channel(VALUE self) {
-  printf("PROCESSING RGB\n");
-
   uint32_t num_pixels = FIX2UINT(rb_iv_get(self, "@num_pixels"));
   uint32_t pixel_step = FIX2UINT(rb_funcall(self, rb_intern("pixel_step"), 0));
 

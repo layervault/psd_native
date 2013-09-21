@@ -1,6 +1,6 @@
-# PsdNative
+# PSDNative
 
-TODO: Write a gem description
+A gem that includes multiple mixins that speed up [PSD.rb](https://github.com/layervault/psd.rb) by delegating certain parts of the library to native C code. This library allows for PSD.rb to function as a pure Ruby library, while allowing for optional native code speed improvements. It overwrites specific methods within PSD.rb transparently, so you can use PSD.rb as you normally would.
 
 ## Installation
 
@@ -18,7 +18,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+``` ruby
+require 'psd_native'
+
+psd = PSD.new("path/to/file.psd")
+psd.parse!
+```
 
 ## Contributing
 
