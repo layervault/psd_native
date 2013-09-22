@@ -43,10 +43,9 @@ VALUE psd_native_decode_rle_channel(VALUE self) {
         file_pos++;
       }
     }
-
-    rb_iv_set(self, "@chan_pos", INT2FIX(chan_pos));
   }
 
+  rb_iv_set(self, "@chan_pos", INT2FIX(chan_pos));
   return Qnil;
 }
 
