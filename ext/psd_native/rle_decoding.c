@@ -2,25 +2,26 @@
 
 VALUE psd_native_decode_rle_channel(VALUE self) {
   int bytes, finish, len, val;
+  int i, j, k;
 
   int height = FIX2INT(rb_funcall(self, rb_intern("height"), 0));
-  VALUE* channel_data = RARRAY_PTR(rb_iv_get(self, "@channel_data"));
+  VALUE channel_data = rb_iv_get(self, "@channel_data");
   VALUE* byte_counts = RARRAY_PTR(rb_iv_get(self, "@byte_counts"));
   int line_index = FIX2INT(rb_iv_get(self, "@line_index"));
   int chan_pos = FIX2INT(rb_iv_get(self, "@chan_pos"));
 
-  for (int i = 0; i < height; i++) {
+  for (i = 0; i < height; i++) {
     bytes = FIX2INT(byte_counts[line_index + i]);
     finish = psd_file_tell(self) + bytes;
 
-    for (int j = 0; j < bytes;) {
+    for (j = 0; j < bytes;) {
       len = FIX2INT(psd_file_read_byte(self));
       j++;
 
       if (len < 128) {
         len++;
-        for (int j = chan_pos; j < chan_pos + len; j++) {
-          channel_data[j] = psd_file_read_byte(self);
+        for (k = chan_pos; k < chan_pos + len; k++) {
+          rb_ary_store(channel_data, k, psd_file_read_byte(self));
         }
 
         chan_pos += len;
@@ -30,8 +31,8 @@ VALUE psd_native_decode_rle_channel(VALUE self) {
         len += 2;
 
         val = psd_file_read_byte(self);
-        for (int j = chan_pos; j < chan_pos + len; j++) {
-          channel_data[j] = val;
+        for (k = chan_pos; k < chan_pos + len; k++) {
+          rb_ary_store(channel_data, k, val);
         }
 
         chan_pos += len;

@@ -7,7 +7,7 @@ module PSDNative
     base::Image.send(:include, PSDNative::ImageMode::RGB)
 
     # Disabled until optimized
-    # base::Image.send(:include, PSDNative::ImageFormat::RLE)
+    base::Image.send(:include, PSDNative::ImageFormat::RLE)
   end
 end
 
