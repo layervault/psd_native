@@ -47,7 +47,7 @@ VALUE psd_native_decode_rle_channel(VALUE self) {
 }
 
 VALUE psd_file_read_byte(VALUE self) {
+  // @file.read(1).bytes[0]
   VALUE data = rb_funcall(psd_file(self), rb_intern("read"), 1, INT2FIX(1));
-  VALUE bytes = rb_funcall(data, rb_intern("bytes"), 0);
-  return rb_ary_entry(rb_funcall(bytes, rb_intern("to_a"), 0), 0);
+  return RARRAY_PTR(rb_funcall(data, rb_intern("bytes"), 0))[0];
 }
