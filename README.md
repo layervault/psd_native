@@ -5,6 +5,7 @@ A gem that includes multiple mixins that speed up [PSD.rb](https://github.com/la
 Currently, PSDNative replaces these sections of PSD.rb with native code:
 
 * RGB processing
+* RLE decoding (disabled; needs optimization)
 
 ## Installation
 
