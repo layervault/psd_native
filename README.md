@@ -23,6 +23,8 @@ Or install it yourself as:
 
 ## Usage
 
+Simply require `psd_native` instead of `psd` and use PSD.rb like normal.
+
 ``` ruby
 require 'psd_native'
 
