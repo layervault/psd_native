@@ -9,14 +9,16 @@ VALUE psd_native_decode_rle_channel(VALUE self) {
   VALUE* byte_counts = RARRAY_PTR(rb_iv_get(self, "@byte_counts"));
   int line_index = FIX2INT(rb_iv_get(self, "@line_index"));
   int chan_pos = FIX2INT(rb_iv_get(self, "@chan_pos"));
+  int file_pos = psd_file_tell(self);
 
   for (i = 0; i < height; i++) {
     bytes = FIX2INT(byte_counts[line_index + i]);
-    finish = psd_file_tell(self) + bytes;
+    finish = file_pos + bytes;
 
     for (j = 0; j < bytes;) {
       len = FIX2INT(psd_file_read_byte(self));
       j++;
+      file_pos++;
 
       if (len < 128) {
         len++;
@@ -26,6 +28,7 @@ VALUE psd_native_decode_rle_channel(VALUE self) {
 
         chan_pos += len;
         j += len;
+        file_pos += len;
       } else if (len > 128) {
         len ^= 0xff;
         len += 2;
@@ -37,6 +40,7 @@ VALUE psd_native_decode_rle_channel(VALUE self) {
 
         chan_pos += len;
         j++;
+        file_pos++;
       }
     }
 
