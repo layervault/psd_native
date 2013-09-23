@@ -20,3 +20,4 @@ Makefile
 conftest.dSYM
 .DS_Store
 *.bundle
+examples/
