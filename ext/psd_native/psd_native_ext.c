@@ -13,6 +13,10 @@ void Init_psd_native() {
   VALUE RLE = rb_define_module_under(ImageFormat, "RLE");
   rb_define_private_method(RLE, "decode_rle_channel", psd_native_decode_rle_channel, 0);
 
+  // Color functions
+  VALUE Color = rb_define_module_under(PSDNative, "Color");
+  rb_define_singleton_method(Color, "cmyk_to_rgb", psd_native_cmyk_to_rgb, 4);
+
   psd_logger("info", "PSD native mixins enabled!");
 }
 

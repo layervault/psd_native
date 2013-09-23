@@ -12,6 +12,7 @@ typedef uint32_t PIXEL;
 // Our native mixins
 #include "image_mode_rgb.h"
 #include "rle_decoding.h"
+#include "color.h"
 
 void Init_psd_native();
 VALUE psd_class();
