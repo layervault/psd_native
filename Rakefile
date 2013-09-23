@@ -7,5 +7,7 @@ Rake::ExtensionTask.new('psd_native') do |ext|
   ext.config_options = '--with-cflags="-std=c99"'
 end
 
+Rake::Task['spec'].prerequisites << :compile
+
 RSpec::Core::RakeTask.new(:spec)
 task :default => :spec
