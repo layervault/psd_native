@@ -1,5 +1,7 @@
 # PSDNative
 
+[![Travis CI](https://travis-ci.org/layervault/psd_native.png)](https://travis-ci.org/layervault/psd_native)
+
 A gem that includes multiple mixins that speed up [PSD.rb](https://github.com/layervault/psd.rb) by delegating certain parts of the library to native C code. This library allows for PSD.rb to function as a pure Ruby library, while allowing for optional native code speed improvements. It overwrites specific methods within PSD.rb transparently, so you can use PSD.rb like normal.
 
 Currently, PSDNative replaces these sections of PSD.rb with native code:
