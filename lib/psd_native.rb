@@ -3,6 +3,7 @@ require "psd"
 module PSDNative
   def self.included(base)
     base::Image.send(:include, PSDNative::ImageMode::RGB)
+    base::Image.send(:include, PSDNative::ImageMode::CMYK)
     base::Image.send(:include, PSDNative::ImageFormat::RLE)
   end
 end

@@ -11,6 +11,7 @@ typedef uint32_t PIXEL;
 
 // Our native mixins
 #include "image_mode_rgb.h"
+#include "image_mode_cmyk.h"
 #include "rle_decoding.h"
 #include "color.h"
 
