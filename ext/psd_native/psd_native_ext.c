@@ -8,10 +8,18 @@ void Init_psd_native() {
   VALUE ImageMode_RGB = rb_define_module_under(ImageMode, "RGB");
   rb_define_private_method(ImageMode_RGB, "combine_rgb_channel", psd_native_combine_rgb_channel, 0);
 
+  // CMYK Processing
+  VALUE ImageMode_CMYK = rb_define_module_under(ImageMode, "CMYK");
+  rb_define_private_method(ImageMode_CMYK, "combine_cmyk_channel", psd_native_combine_cmyk_channel, 0);
+
   // RLE decoding
   VALUE ImageFormat = rb_define_module_under(PSDNative, "ImageFormat");
   VALUE RLE = rb_define_module_under(ImageFormat, "RLE");
   rb_define_private_method(RLE, "decode_rle_channel", psd_native_decode_rle_channel, 0);
+
+  // Color functions
+  VALUE Color = rb_define_module_under(PSDNative, "Color");
+  rb_define_singleton_method(Color, "cmyk_to_rgb", psd_native_cmyk_to_rgb, 4);
 
   psd_logger("info", "PSD native mixins enabled!");
 }
