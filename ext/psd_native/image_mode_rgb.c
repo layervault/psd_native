@@ -6,10 +6,10 @@ VALUE psd_native_combine_rgb_channel(VALUE self) {
   uint32_t num_pixels = FIX2UINT(rb_iv_get(self, "@num_pixels"));
   uint32_t pixel_step = FIX2UINT(rb_funcall(self, rb_intern("pixel_step"), 0));
 
-  VALUE channels_info = rb_iv_get(self, "@channels_info");
-  VALUE channel_data = rb_iv_get(self, "@channel_data");
+  VALUE* channels_info = RARRAY_PTR(rb_iv_get(self, "@channels_info"));
+  VALUE* channel_data = RARRAY_PTR(rb_iv_get(self, "@channel_data"));
   uint32_t channel_length = FIX2UINT(rb_iv_get(self, "@channel_length"));
-  uint32_t channel_count = FIX2UINT(rb_funcall(channels_info, rb_intern("length"), 0));
+  int channel_count = RARRAY_LENINT(rb_iv_get(self, "@channels_info"));
 
   int i, j;
   uint32_t val, r, g, b, a;
@@ -21,10 +21,10 @@ VALUE psd_native_combine_rgb_channel(VALUE self) {
 
     // And every channel for every pixel
     for (j = 0; j < channel_count; j++) {
-      val = FIX2UINT(rb_ary_entry(channel_data, i + (channel_length * j)));
+      val = FIX2UINT(channel_data[i + (channel_length * j)]);
 
       // Get the hash containing channel info
-      switch (FIX2INT(rb_hash_aref(rb_ary_entry(channels_info, j), ID2SYM(rb_intern("id"))))) {
+      switch (FIX2INT(rb_hash_aref(channels_info[j], ID2SYM(rb_intern("id"))))) {
         case -1: a = val; break;
         case 0:  r = val; break;
         case 1:  g = val; break;
