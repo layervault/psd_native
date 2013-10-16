@@ -16,19 +16,11 @@ VALUE psd_native_combine_cmyk_channel(VALUE self) {
 
   // Loop through every pixel in the image
   for (i = 0; i < num_pixels; i += pixel_step) {
-    if (channel_count == 5) {
-      a = channel_data[i];
-      c = channel_data[i + channel_length];
-      m = channel_data[i + channel_length * 2];
-      y = channel_data[i + channel_length * 3];
-      k = channel_data[i + channel_length * 4];
-    } else {
-      a = 255;
-      c = channel_data[i];
-      m = channel_data[i + channel_length];
-      y = channel_data[i + channel_length * 2];
-      k = channel_data[i + channel_length * 3];
-    }
+    c = channel_data[i];
+    m = channel_data[i + channel_length];
+    y = channel_data[i + channel_length * 2];
+    k = channel_data[i + channel_length * 3];
+    a = (channel_count == 5 ? channel_data[i + channel_length * 4] : 255);
 
     rgb = psd_native_cmyk_to_rgb(
       self, 

@@ -12,6 +12,10 @@ void Init_psd_native() {
   VALUE ImageMode_CMYK = rb_define_module_under(ImageMode, "CMYK");
   rb_define_private_method(ImageMode_CMYK, "combine_cmyk_channel", psd_native_combine_cmyk_channel, 0);
 
+  // Greyscale Processing
+  VALUE ImageMode_Greyscale = rb_define_module_under(ImageMode, "Greyscale");
+  rb_define_private_method(ImageMode_Greyscale, "combine_greyscale_channel", psd_native_combine_greyscale_channel, 0);
+
   // RLE decoding
   VALUE ImageFormat = rb_define_module_under(PSDNative, "ImageFormat");
   VALUE RLE = rb_define_module_under(ImageFormat, "RLE");
