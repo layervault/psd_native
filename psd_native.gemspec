@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.extensions    = ["ext/psd_native/extconf.rb"]
   spec.require_paths = ["lib", "ext"]
 
-  spec.add_runtime_dependency "psd", "~> 1.2"
+  spec.add_runtime_dependency "psd", ">= 1.2"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
