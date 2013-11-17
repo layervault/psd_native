@@ -18,11 +18,3 @@ VALUE psd_native_cmyk_to_rgb(VALUE self, VALUE c, VALUE m, VALUE y, VALUE k) {
 int psd_clamp_int(int n, int low, int high) {
   return n < low ? low : (n > high ? high : n);
 }
-
-int opaque(uint32_t color) {
-  return A(color) == 0x000000ff;
-}
-
-int transparent(uint32_t color) {
-  return A(color) == 0x00000000;
-}

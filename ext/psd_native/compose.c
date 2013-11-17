@@ -7,8 +7,8 @@ VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (opaque(fg) || transparent(bg)) return r_fg;
-  if (transparent(fg)) return r_bg;
+  if (OPAQUE(fg) || TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
 
@@ -24,8 +24,8 @@ VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (transparent(bg)) return r_fg;
-  if (transparent(fg)) return r_bg;
+  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
 
@@ -41,8 +41,8 @@ VALUE psd_native_compose_multiply(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (transparent(bg)) return r_fg;
-  if (transparent(fg)) return r_bg;
+  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
 
@@ -58,8 +58,8 @@ VALUE psd_native_compose_color_burn(VALUE self, VALUE r_fg, VALUE r_bg, VALUE op
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (transparent(bg)) return r_fg;
-  if (transparent(fg)) return r_bg;
+  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
 

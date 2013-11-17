@@ -6,10 +6,10 @@
 #define G(color) (((PIXEL) (color) & (PIXEL) 0x00ff0000) >> 16)
 #define B(color) (((PIXEL) (color) & (PIXEL) 0x0000ff00) >> 8)
 #define A(color) ((PIXEL) (color) & (PIXEL) 0x000000ff)
+#define OPAQUE(color) ((PIXEL) A(color) == (PIXEL) 0x000000ff)
+#define TRANSPARENT(color) ((PIXEL) A(color) == (PIXEL) 0x00000000)
 
 VALUE psd_native_cmyk_to_rgb(VALUE self, VALUE c, VALUE m, VALUE y, VALUE k);
 int psd_clamp_int(int n, int low, int high);
-int opaque(uint32_t color);
-int transparent(uint32_t color);
 
 #endif
