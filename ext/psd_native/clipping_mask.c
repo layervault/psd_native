@@ -17,11 +17,11 @@ VALUE psd_native_clipping_mask_apply(VALUE self) {
   VALUE pixel_data = rb_funcall(rb_funcall(mask, rb_intern("image"), 0), rb_intern("pixel_data"), 0);
   VALUE pixel;
   uint32_t color;
-  int mask_top = rb_funcall(mask, rb_intern("top"), 0),
-      mask_bottom = rb_funcall(mask, rb_intern("bottom"), 0),
-      mask_left = rb_funcall(mask, rb_intern("left"), 0),
-      mask_right = rb_funcall(mask, rb_intern("right"), 0),
-      mask_width = rb_funcall(mask, rb_intern("width"), 0),
+  int mask_top = FIX2INT(rb_funcall(mask, rb_intern("top"), 0)),
+      mask_bottom = FIX2INT(rb_funcall(mask, rb_intern("bottom"), 0)),
+      mask_left = FIX2INT(rb_funcall(mask, rb_intern("left"), 0)),
+      mask_right = FIX2INT(rb_funcall(mask, rb_intern("right"), 0)),
+      mask_width = FIX2INT(rb_funcall(mask, rb_intern("width"), 0)),
       alpha = 0,
       mask_x, mask_y;
 
