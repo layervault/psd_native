@@ -7,6 +7,8 @@ typedef struct AlphaValues {
 } AlphaValues;
 
 VALUE psd_native_compose_normal(VALUE self, VALUE fg, VALUE bg, VALUE opts);
+VALUE psd_native_compose_darken(VALUE self, VALUE fg, VALUE bg, VALUE opts);
+
 void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts);
 uint32_t calculate_opacity(VALUE *opts);
 uint32_t blend_channel(uint32_t bg, uint32_t fg, uint32_t a);

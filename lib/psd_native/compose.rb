@@ -7,5 +7,10 @@ class PSD
       opts = DEFAULT_OPTS.merge(opts)
       PSDNative::Compose.normal(fg, bg, opts)
     end
+
+    def darken(fg, bg, opts={})
+      opts = DEFAULT_OPTS.merge(opts)
+      PSDNative::Compose.darken(fg, bg, opts)
+    end
   end
 end

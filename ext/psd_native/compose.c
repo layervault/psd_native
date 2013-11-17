@@ -7,14 +7,31 @@ VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   uint32_t bg = FIX2UINT(r_bg);
   uint32_t new_r, new_g, new_b;
 
-  if (opaque(fg) || transparent(bg)) return INT2FIX(fg);
-  if (transparent(fg)) return INT2FIX(bg);
+  if (opaque(fg) || transparent(bg)) return r_fg;
+  if (transparent(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
 
   new_r = blend_channel(R(bg), R(fg), alpha.mix);
   new_g = blend_channel(G(bg), G(fg), alpha.mix);
   new_b = blend_channel(B(bg), B(fg), alpha.mix);
+
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
+}
+
+VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  uint32_t fg = FIX2UINT(r_fg);
+  uint32_t bg = FIX2UINT(r_bg);
+  uint32_t new_r, new_g, new_b;
+
+  if (transparent(bg)) return r_fg;
+  if (transparent(fg)) return r_bg;
+
+  calculate_alphas(fg, bg, &opts);
+
+  new_r = R(fg) <= R(bg) ? blend_channel(R(bg), R(fg), alpha.mix) : R(bg);
+  new_g = G(fg) <= G(bg) ? blend_channel(G(bg), G(fg), alpha.mix) : G(bg);
+  new_b = B(fg) <= B(bg) ? blend_channel(B(bg), B(fg), alpha.mix) : B(bg);
 
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
