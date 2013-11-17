@@ -7,7 +7,8 @@ class PSD
       :normal,
       :darken,
       :multiply,
-      :color_burn
+      :color_burn,
+      :linear_burn
     ]
 
     IMPLEMENTED.each do |meth|
