@@ -23,7 +23,11 @@ void Init_psd_native() {
 
   // Color functions
   VALUE Color = rb_define_module_under(PSDNative, "Color");
-  rb_define_singleton_method(Color, "cmyk_to_rgb", psd_native_cmyk_to_rgb, 4);
+  rb_define_module_function(Color, "cmyk_to_rgb", psd_native_cmyk_to_rgb, 4);
+
+  // Compose functions
+  VALUE Compose = rb_define_module_under(PSDNative, "Compose");
+  rb_define_module_function(Compose, "normal", psd_native_compose_normal, 3);
 
   psd_logger("info", "PSD native mixins enabled!");
 }
