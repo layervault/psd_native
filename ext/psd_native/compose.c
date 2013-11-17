@@ -36,6 +36,23 @@ VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
 
+VALUE psd_native_compose_multiply(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  uint32_t fg = FIX2UINT(r_fg);
+  uint32_t bg = FIX2UINT(r_bg);
+  uint32_t new_r, new_g, new_b;
+
+  if (transparent(bg)) return r_fg;
+  if (transparent(fg)) return r_bg;
+
+  calculate_alphas(fg, bg, &opts);
+
+  new_r = blend_channel(R(bg), R(fg) * R(bg) >> 8, alpha.mix);
+  new_g = blend_channel(G(bg), G(fg) * G(bg) >> 8, alpha.mix);
+  new_b = blend_channel(B(bg), B(fg) * B(bg) >> 8, alpha.mix);
+
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
+}
+
 void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts) {
   uint32_t opacity = calculate_opacity(opts);
   uint32_t src_alpha = A(fg) * opacity >> 8;

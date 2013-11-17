@@ -3,14 +3,23 @@ require 'psd_native/psd_native'
 
 class PSD
   module Compose
-    def normal(fg, bg, opts={})
-      opts = DEFAULT_OPTS.merge(opts)
-      PSDNative::Compose.normal(fg, bg, opts)
+    IMPLEMENTED = [
+      :normal,
+      :darken,
+      :multiply
+    ]
+
+    IMPLEMENTED.each do |meth|
+      define_method(meth) do |*args|
+        do_blend meth, *args
+      end
     end
 
-    def darken(fg, bg, opts={})
+    private
+
+    def do_blend(blend, fg, bg, opts={})
       opts = DEFAULT_OPTS.merge(opts)
-      PSDNative::Compose.darken(fg, bg, opts)
+      PSDNative::Compose.send(blend, fg, bg, opts)
     end
   end
 end
