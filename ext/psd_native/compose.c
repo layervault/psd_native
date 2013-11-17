@@ -12,18 +12,18 @@ VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
 
   calculate_alphas(fg, bg, &opts);
 
-  new_r = blend_channel(r(bg), r(fg), alpha.mix);
-  new_g = blend_channel(g(bg), g(fg), alpha.mix);
-  new_b = blend_channel(b(bg), b(fg), alpha.mix);
+  new_r = blend_channel(R(bg), R(fg), alpha.mix);
+  new_g = blend_channel(G(bg), G(fg), alpha.mix);
+  new_b = blend_channel(B(bg), B(fg), alpha.mix);
 
-  return INT2FIX(rgba(new_r, new_g, new_b, alpha.dst));
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
 
 void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts) {
   uint32_t opacity = calculate_opacity(opts);
-  uint32_t src_alpha = a(fg) * opacity >> 8;
+  uint32_t src_alpha = A(fg) * opacity >> 8;
 
-  alpha.dst = a(bg);
+  alpha.dst = A(bg);
   alpha.mix = (src_alpha << 8) / (src_alpha + ((256 - src_alpha) * alpha.dst >> 8));
   alpha.dst = alpha.dst + ((256 - alpha.dst) * src_alpha >> 8);
 }

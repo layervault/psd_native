@@ -8,10 +8,10 @@
 // Pixels use 32 bits unsigned integers
 // We borrow this from OilyPNG
 typedef uint32_t PIXEL;
-#define BUILD_PIXEL(r, g, b, a)  (((PIXEL) (r) << 24) + ((PIXEL) (g) << 16) + ((PIXEL) (b) << 8) + (PIXEL) (a))
 
 // Our native mixins
 #include "color.h"
+#include "clipping_mask.h"
 #include "compose.h"
 #include "image_mode_cmyk.h"
 #include "image_mode_greyscale.h"

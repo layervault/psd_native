@@ -7,6 +7,11 @@ module PSDNative
     base::Image.send(:include, PSDNative::ImageMode::Greyscale)
     base::Image.send(:include, PSDNative::ImageFormat::RLE)
     base::Color.send(:include, PSDNative::Color)
+
+    base::ClippingMask.class_eval do
+      remove_method :apply
+    end
+    base::ClippingMask.send(:include, PSDNative::ClippingMask)
   end
 end
 

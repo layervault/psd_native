@@ -29,6 +29,9 @@ void Init_psd_native() {
   VALUE Compose = rb_define_module_under(PSDNative, "Compose");
   rb_define_module_function(Compose, "normal", psd_native_compose_normal, 3);
 
+  VALUE ClippingMask = rb_define_module_under(PSDNative, "ClippingMask");
+  rb_define_method(ClippingMask, "apply", psd_native_clipping_mask_apply, 0);
+
   psd_logger("info", "PSD native mixins enabled!");
 }
 
