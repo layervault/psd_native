@@ -12,9 +12,9 @@ VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
 
   calculate_alphas(fg, bg, &opts);
 
-  new_r = blend_channel(R(bg), R(fg), alpha.mix);
-  new_g = blend_channel(G(bg), G(fg), alpha.mix);
-  new_b = blend_channel(B(bg), B(fg), alpha.mix);
+  new_r = BLEND_CHANNEL(R(bg), R(fg), alpha.mix);
+  new_g = BLEND_CHANNEL(G(bg), G(fg), alpha.mix);
+  new_b = BLEND_CHANNEL(B(bg), B(fg), alpha.mix);
 
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
@@ -29,9 +29,9 @@ VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
 
   calculate_alphas(fg, bg, &opts);
 
-  new_r = R(fg) <= R(bg) ? blend_channel(R(bg), R(fg), alpha.mix) : R(bg);
-  new_g = G(fg) <= G(bg) ? blend_channel(G(bg), G(fg), alpha.mix) : G(bg);
-  new_b = B(fg) <= B(bg) ? blend_channel(B(bg), B(fg), alpha.mix) : B(bg);
+  new_r = R(fg) <= R(bg) ? BLEND_CHANNEL(R(bg), R(fg), alpha.mix) : R(bg);
+  new_g = G(fg) <= G(bg) ? BLEND_CHANNEL(G(bg), G(fg), alpha.mix) : G(bg);
+  new_b = B(fg) <= B(bg) ? BLEND_CHANNEL(B(bg), B(fg), alpha.mix) : B(bg);
 
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
@@ -46,9 +46,9 @@ VALUE psd_native_compose_multiply(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts
 
   calculate_alphas(fg, bg, &opts);
 
-  new_r = blend_channel(R(bg), R(fg) * R(bg) >> 8, alpha.mix);
-  new_g = blend_channel(G(bg), G(fg) * G(bg) >> 8, alpha.mix);
-  new_b = blend_channel(B(bg), B(fg) * B(bg) >> 8, alpha.mix);
+  new_r = BLEND_CHANNEL(R(bg), R(fg) * R(bg) >> 8, alpha.mix);
+  new_g = BLEND_CHANNEL(G(bg), G(fg) * G(bg) >> 8, alpha.mix);
+  new_b = BLEND_CHANNEL(B(bg), B(fg) * B(bg) >> 8, alpha.mix);
 
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
@@ -67,8 +67,4 @@ uint32_t calculate_opacity(VALUE *opts) {
   uint32_t fill_opacity = FIX2UINT(rb_hash_aref(*opts, ID2SYM(rb_intern("fill_opacity"))));
 
   return opacity * fill_opacity / 255;
-}
-
-uint32_t blend_channel(uint32_t bg, uint32_t fg, uint32_t a) {
-  return ((bg << 8) + (fg - bg) * a) >> 8;
 }

@@ -6,6 +6,8 @@ typedef struct AlphaValues {
   int dst;
 } AlphaValues;
 
+#define BLEND_CHANNEL(b, f, a) ((((b) << 8) + ((f) - (b)) * (a)) >> 8)
+
 VALUE psd_native_compose_normal(VALUE self, VALUE fg, VALUE bg, VALUE opts);
 VALUE psd_native_compose_darken(VALUE self, VALUE fg, VALUE bg, VALUE opts);
 VALUE psd_native_compose_multiply(VALUE self, VALUE fg, VALUE bg, VALUE opts);
