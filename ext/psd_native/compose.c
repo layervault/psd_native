@@ -10,7 +10,7 @@ VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   if (opaque(fg) || transparent(bg)) return INT2FIX(fg);
   if (transparent(fg)) return INT2FIX(bg);
 
-  calculate_alphas(fg, bg, opts);
+  calculate_alphas(fg, bg, &opts);
 
   new_r = blend_channel(r(bg), r(fg), alpha.mix);
   new_g = blend_channel(g(bg), g(fg), alpha.mix);
@@ -19,7 +19,7 @@ VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   return INT2FIX(rgba(new_r, new_g, new_b, alpha.dst));
 }
 
-void calculate_alphas(uint32_t fg, uint32_t bg, VALUE opts) {
+void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts) {
   uint32_t opacity = calculate_opacity(opts);
   uint32_t src_alpha = a(fg) * opacity >> 8;
 
@@ -28,9 +28,9 @@ void calculate_alphas(uint32_t fg, uint32_t bg, VALUE opts) {
   alpha.dst = alpha.dst + ((256 - alpha.dst) * src_alpha >> 8);
 }
 
-uint32_t calculate_opacity(VALUE opts) {
-  uint32_t opacity = FIX2UINT(rb_hash_aref(opts, ID2SYM(rb_intern("opacity"))));
-  uint32_t fill_opacity = FIX2UINT(rb_hash_aref(opts, ID2SYM(rb_intern("fill_opacity"))));
+uint32_t calculate_opacity(VALUE *opts) {
+  uint32_t opacity = FIX2UINT(rb_hash_aref(*opts, ID2SYM(rb_intern("opacity"))));
+  uint32_t fill_opacity = FIX2UINT(rb_hash_aref(*opts, ID2SYM(rb_intern("fill_opacity"))));
 
   return opacity * fill_opacity / 255;
 }
