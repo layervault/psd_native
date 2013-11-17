@@ -11,6 +11,8 @@ typedef struct AlphaValues {
 VALUE psd_native_compose_normal(VALUE self, VALUE fg, VALUE bg, VALUE opts);
 VALUE psd_native_compose_darken(VALUE self, VALUE fg, VALUE bg, VALUE opts);
 VALUE psd_native_compose_multiply(VALUE self, VALUE fg, VALUE bg, VALUE opts);
+VALUE psd_native_compose_color_burn(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
+PIXEL color_burn_foreground(PIXEL b, PIXEL f);
 
 void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts);
 uint32_t calculate_opacity(VALUE *opts);

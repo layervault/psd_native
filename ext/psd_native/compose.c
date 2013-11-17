@@ -3,9 +3,9 @@
 AlphaValues alpha;
 
 VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
-  uint32_t fg = FIX2UINT(r_fg);
-  uint32_t bg = FIX2UINT(r_bg);
-  uint32_t new_r, new_g, new_b;
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
 
   if (opaque(fg) || transparent(bg)) return r_fg;
   if (transparent(fg)) return r_bg;
@@ -20,9 +20,9 @@ VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
 }
 
 VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
-  uint32_t fg = FIX2UINT(r_fg);
-  uint32_t bg = FIX2UINT(r_bg);
-  uint32_t new_r, new_g, new_b;
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
 
   if (transparent(bg)) return r_fg;
   if (transparent(fg)) return r_bg;
@@ -37,9 +37,9 @@ VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
 }
 
 VALUE psd_native_compose_multiply(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
-  uint32_t fg = FIX2UINT(r_fg);
-  uint32_t bg = FIX2UINT(r_bg);
-  uint32_t new_r, new_g, new_b;
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
 
   if (transparent(bg)) return r_fg;
   if (transparent(fg)) return r_bg;
@@ -53,7 +53,33 @@ VALUE psd_native_compose_multiply(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
 
-void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts) {
+VALUE psd_native_compose_color_burn(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
+
+  if (transparent(bg)) return r_fg;
+  if (transparent(fg)) return r_bg;
+
+  calculate_alphas(fg, bg, &opts);
+
+  new_r = BLEND_CHANNEL(R(bg), color_burn_foreground(R(bg), R(fg)), alpha.mix);
+  new_g = BLEND_CHANNEL(G(bg), color_burn_foreground(G(bg), G(fg)), alpha.mix);
+  new_b = BLEND_CHANNEL(B(bg), color_burn_foreground(B(bg), B(fg)), alpha.mix);
+
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
+}
+
+PIXEL color_burn_foreground(PIXEL b, PIXEL f) {
+  if (f > 0) {
+    f = ((255 - b) << 8) / f;
+    return f > 255 ? 0 : (255 - f);
+  } else {
+    return b;
+  }
+}
+
+void calculate_alphas(PIXEL fg, PIXEL bg, VALUE *opts) {
   uint32_t opacity = calculate_opacity(opts);
   uint32_t src_alpha = A(fg) * opacity >> 8;
 
