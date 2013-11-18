@@ -3,19 +3,7 @@ require 'psd_native/psd_native'
 
 class PSD
   module Compose
-    IMPLEMENTED = [
-      :normal,
-      :darken,
-      :multiply,
-      :color_burn,
-      :linear_burn,
-      :lighten,
-      :screen,
-      :color_dodge,
-      :linear_dodge
-    ]
-
-    IMPLEMENTED.each do |meth|
+    PSDNative::Compose.methods(false).each do |meth|
       define_method(meth) do |*args|
         do_blend meth, *args
       end

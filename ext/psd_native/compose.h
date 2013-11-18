@@ -19,6 +19,8 @@ VALUE psd_native_compose_screen(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
 VALUE psd_native_compose_color_dodge(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
 PIXEL color_dodge_foreground(PIXEL b, PIXEL f);
 VALUE psd_native_compose_linear_dodge(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
+VALUE psd_native_compose_overlay(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
+PIXEL overlay_foreground(PIXEL b, PIXEL f);
 
 void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts);
 uint32_t calculate_opacity(VALUE *opts);

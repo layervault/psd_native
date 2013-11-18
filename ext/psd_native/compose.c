@@ -172,6 +172,31 @@ VALUE psd_native_compose_linear_dodge(VALUE self, VALUE r_fg, VALUE r_bg, VALUE 
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
 
+VALUE psd_native_compose_overlay(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
+
+  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
+
+  calculate_alphas(fg, bg, &opts);
+
+  new_r = BLEND_CHANNEL(R(bg), overlay_foreground(R(bg), R(fg)), alpha.mix);
+  new_g = BLEND_CHANNEL(G(bg), overlay_foreground(G(bg), G(fg)), alpha.mix);
+  new_b = BLEND_CHANNEL(B(bg), overlay_foreground(B(bg), B(fg)), alpha.mix);
+
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
+}
+
+PIXEL overlay_foreground(PIXEL b, PIXEL f) {
+  if (b < 128) {
+    return b * f >> 7;
+  } else {
+    return 255 - ((255 - b) * (255 - f) >> 7);
+  }
+}
+
 void calculate_alphas(PIXEL fg, PIXEL bg, VALUE *opts) {
   uint32_t opacity = calculate_opacity(opts);
   uint32_t src_alpha = A(fg) * opacity >> 8;
