@@ -11,6 +11,8 @@ Currently, PSDNative replaces these sections of PSD.rb with native code:
 * Greyscale processing
 * RLE decoding
 * Some color conversions
+* Color composition
+* Clipping masks
 
 ## Installation
 
