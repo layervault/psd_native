@@ -10,7 +10,8 @@ class PSD
       :color_burn,
       :linear_burn,
       :lighten,
-      :screen
+      :screen,
+      :color_dodge
     ]
 
     IMPLEMENTED.each do |meth|

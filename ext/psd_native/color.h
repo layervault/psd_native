@@ -2,6 +2,7 @@
 #define PSD_NATIVE_COLOR
 
 #define BUILD_PIXEL(r, g, b, a) (((PIXEL) (r) << 24) + ((PIXEL) (g) << 16) + ((PIXEL) (b) << 8) + (PIXEL) (a))
+#define CLAMP_PIXEL(p) ((p < 0) ? 0 : ((p > 255) ? 255 : p))
 #define R(color) (PIXEL) (((PIXEL) (color) & (PIXEL) 0xff000000) >> 24)
 #define G(color) (PIXEL) (((PIXEL) (color) & (PIXEL) 0x00ff0000) >> 16)
 #define B(color) (PIXEL) (((PIXEL) (color) & (PIXEL) 0x0000ff00) >> 8)
