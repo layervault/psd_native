@@ -40,6 +40,7 @@ void Init_psd_native() {
   rb_define_module_function(Compose, "soft_light", psd_native_compose_soft_light, 3);
   rb_define_module_function(Compose, "hard_light", psd_native_compose_hard_light, 3);
   rb_define_module_function(Compose, "vivid_light", psd_native_compose_vivid_light, 3);
+  rb_define_module_function(Compose, "linear_light", psd_native_compose_linear_light, 3);
 
   VALUE ClippingMask = rb_define_module_under(PSDNative, "ClippingMask");
   rb_define_method(ClippingMask, "apply", psd_native_clipping_mask_apply, 0);
