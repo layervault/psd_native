@@ -1,3 +1,4 @@
+#include <math.h>
 #include "psd_native_ext.h"
 
 AlphaValues alpha;
@@ -333,6 +334,23 @@ VALUE psd_native_compose_hard_mix(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts
   new_r = BLEND_CHANNEL(R(bg), (R(bg) + R(fg) <= 255) ? 0 : 255, alpha.mix);
   new_g = BLEND_CHANNEL(G(bg), (G(bg) + G(fg) <= 255) ? 0 : 255, alpha.mix);
   new_b = BLEND_CHANNEL(B(bg), (B(bg) + B(fg) <= 255) ? 0 : 255, alpha.mix);
+
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
+}
+
+VALUE psd_native_compose_difference(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
+
+  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
+
+  calculate_alphas(fg, bg, &opts);
+
+  new_r = BLEND_CHANNEL(R(bg), abs(R(bg) - R(fg)), alpha.mix);
+  new_g = BLEND_CHANNEL(G(bg), abs(G(bg) - G(fg)), alpha.mix);
+  new_b = BLEND_CHANNEL(B(bg), abs(B(bg) - B(fg)), alpha.mix);
 
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
