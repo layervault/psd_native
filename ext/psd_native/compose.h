@@ -25,6 +25,8 @@ VALUE psd_native_compose_soft_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE op
 PIXEL soft_light_foreground(PIXEL b, PIXEL f);
 VALUE psd_native_compose_hard_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
 PIXEL hard_light_foreground(PIXEL b, PIXEL f);
+VALUE psd_native_compose_vivid_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
+PIXEL vivid_light_foreground(PIXEL b, PIXEL f);
 
 void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts);
 uint32_t calculate_opacity(VALUE *opts);
