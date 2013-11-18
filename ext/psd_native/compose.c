@@ -197,6 +197,29 @@ PIXEL overlay_foreground(PIXEL b, PIXEL f) {
   }
 }
 
+VALUE psd_native_compose_soft_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
+
+  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
+
+  calculate_alphas(fg, bg, &opts);
+
+  new_r = BLEND_CHANNEL(R(bg), soft_light_foreground(R(bg), R(fg)), alpha.mix);
+  new_g = BLEND_CHANNEL(G(bg), soft_light_foreground(G(bg), G(fg)), alpha.mix);
+  new_b = BLEND_CHANNEL(B(bg), soft_light_foreground(B(bg), B(fg)), alpha.mix);
+
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
+}
+
+PIXEL soft_light_foreground(PIXEL b, PIXEL f) {
+  uint32_t c1 = b * f >> 8;
+  uint32_t c2 = 255 - ((255 - b) * (255 - f) >> 8);
+  return ((255 - b) * c1 >> 8) + (b * c2 >> 8);
+}
+
 void calculate_alphas(PIXEL fg, PIXEL bg, VALUE *opts) {
   uint32_t opacity = calculate_opacity(opts);
   uint32_t src_alpha = A(fg) * opacity >> 8;
