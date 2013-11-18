@@ -96,6 +96,23 @@ VALUE psd_native_compose_linear_burn(VALUE self, VALUE r_fg, VALUE r_bg, VALUE o
   return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
 }
 
+VALUE psd_native_compose_lighten(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
+
+  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
+
+  calculate_alphas(fg, bg, &opts);
+
+  new_r = (R(fg) >= R(bg)) ? BLEND_CHANNEL(R(bg), R(fg), alpha.mix) : R(bg);
+  new_g = (G(fg) >= G(bg)) ? BLEND_CHANNEL(G(bg), G(fg), alpha.mix) : G(bg);
+  new_b = (B(fg) >= B(bg)) ? BLEND_CHANNEL(B(bg), B(fg), alpha.mix) : B(bg);
+
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
+}
+
 void calculate_alphas(PIXEL fg, PIXEL bg, VALUE *opts) {
   uint32_t opacity = calculate_opacity(opts);
   uint32_t src_alpha = A(fg) * opacity >> 8;

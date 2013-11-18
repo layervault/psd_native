@@ -14,6 +14,7 @@ VALUE psd_native_compose_multiply(VALUE self, VALUE fg, VALUE bg, VALUE opts);
 VALUE psd_native_compose_color_burn(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
 PIXEL color_burn_foreground(PIXEL b, PIXEL f);
 VALUE psd_native_compose_linear_burn(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
+VALUE psd_native_compose_lighten(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts);
 
 void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts);
 uint32_t calculate_opacity(VALUE *opts);
