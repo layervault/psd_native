@@ -220,6 +220,31 @@ PIXEL soft_light_foreground(PIXEL b, PIXEL f) {
   return ((255 - b) * c1 >> 8) + (b * c2 >> 8);
 }
 
+VALUE psd_native_compose_hard_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  PIXEL fg = FIX2UINT(r_fg);
+  PIXEL bg = FIX2UINT(r_bg);
+  PIXEL new_r, new_g, new_b;
+
+  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(fg)) return r_bg;
+
+  calculate_alphas(fg, bg, &opts);
+
+  new_r = BLEND_CHANNEL(R(bg), hard_light_foreground(R(bg), R(fg)), alpha.mix);
+  new_g = BLEND_CHANNEL(G(bg), hard_light_foreground(G(bg), G(fg)), alpha.mix);
+  new_b = BLEND_CHANNEL(B(bg), hard_light_foreground(B(bg), B(fg)), alpha.mix);
+
+  return INT2FIX(BUILD_PIXEL(new_r, new_g, new_b, alpha.dst));
+}
+
+PIXEL hard_light_foreground(PIXEL b, PIXEL f) {
+  if (f < 128) {
+    return b * f >> 7;
+  } else {
+    return 255 - ((255 - f) * (255 - b) >> 7);
+  }
+}
+
 void calculate_alphas(PIXEL fg, PIXEL bg, VALUE *opts) {
   uint32_t opacity = calculate_opacity(opts);
   uint32_t src_alpha = A(fg) * opacity >> 8;
