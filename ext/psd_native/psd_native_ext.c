@@ -49,6 +49,11 @@ void Init_psd_native() {
   VALUE ClippingMask = rb_define_module_under(PSDNative, "ClippingMask");
   rb_define_method(ClippingMask, "apply", psd_native_clipping_mask_apply, 0);
 
+  // Build preview
+  VALUE Node = rb_define_module_under(PSDNative, "Node");
+  VALUE BuildPreview = rb_define_module_under(Node, "BuildPreview");
+  rb_define_private_method(BuildPreview, "blend_pixels!", psd_native_build_preview_blend_pixels, 6);
+
   psd_logger("info", "PSD native mixins enabled!");
 }
 
