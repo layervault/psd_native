@@ -13,9 +13,6 @@ VALUE psd_native_build_preview_blend_pixels(
   uint32_t width, height, base_width, base_height;
   VALUE color;
   VALUE Compose = rb_const_get(rb_const_get(rb_cObject, rb_intern("PSD")), rb_intern("Compose"));
-  // char * blend_mode = StringValueCStr(blending_mode);
-
-  psd_logger("debug", "BLENDING PIXELS NATIVELY");
 
   width = FIX2UINT(rb_funcall(other, rb_intern("width"), 0));
   height = FIX2UINT(rb_funcall(other, rb_intern("height"), 0));
