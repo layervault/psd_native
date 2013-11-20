@@ -14,6 +14,11 @@ VALUE psd_native_combine_rgb_channel(VALUE self) {
   int i, j;
   uint32_t val, r, g, b, a;
 
+  int channel_ids[channel_count];
+  for (i = 0; i < channel_count; i++) {
+    channel_ids[0] = FIX2INT(rb_hash_aref(channels_info[i], ID2SYM(rb_intern("id"))));
+  }
+
   // Loop through every pixel in the image
   for (i = 0; i < num_pixels; i += pixel_step) {
     r = g = b = 0;
@@ -24,7 +29,7 @@ VALUE psd_native_combine_rgb_channel(VALUE self) {
       val = FIX2UINT(channel_data[i + (channel_length * j)]);
 
       // Get the hash containing channel info
-      switch (FIX2INT(rb_hash_aref(channels_info[j], ID2SYM(rb_intern("id"))))) {
+      switch (channel_ids[j]) {
         case -1: a = val; break;
         case 0:  r = val; break;
         case 1:  g = val; break;
