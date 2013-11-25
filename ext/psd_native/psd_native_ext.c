@@ -1,6 +1,12 @@
 #include "psd_native_ext.h"
 
+static VALUE psd_class;
+static VALUE logger;
+
 void Init_psd_native() {
+  psd_class = rb_const_get(rb_cObject, rb_intern("PSD"));
+  logger = rb_funcall(psd_class, rb_intern("logger"), 0);
+
   VALUE PSDNative = rb_define_module("PSDNative");
   VALUE ImageMode = rb_define_module_under(PSDNative, "ImageMode");
 
@@ -54,15 +60,17 @@ void Init_psd_native() {
   VALUE BuildPreview = rb_define_module_under(Node, "BuildPreview");
   rb_define_private_method(BuildPreview, "blend_pixels!", psd_native_build_preview_blend_pixels, 6);
 
+  // Util
+  VALUE Util = rb_define_module_under(PSDNative, "Util");
+  rb_define_method(Util, "pad2", psd_native_util_pad2, 1);
+  rb_define_method(Util, "pad4", psd_native_util_pad4, 1);
+  rb_define_method(Util, "clamp", psd_native_util_clamp, 3);
+
   psd_logger("info", "PSD native mixins enabled!");
 }
 
-VALUE psd_class() {
-  return rb_const_get(rb_cObject, rb_intern("PSD"));
-}
-
 void psd_logger(char* level, char* message) {
-  rb_funcall(rb_funcall(psd_class(), rb_intern("logger"), 0), rb_intern(level), 1, rb_str_new2(message));
+  rb_funcall(logger, rb_intern(level), 1, rb_str_new2(message));
 }
 
 VALUE psd_file(VALUE self) {
