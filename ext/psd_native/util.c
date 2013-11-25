@@ -5,7 +5,7 @@ VALUE psd_native_util_pad2(VALUE self, VALUE i) {
 }
 
 VALUE psd_native_util_pad4(VALUE self, VALUE i) {
-  return INT2FIX(((FIX2INT(i) + 4) & ~0x03));
+  return INT2FIX(((FIX2INT(i) + 4) & ~0x03) - 1);
 }
 
 VALUE psd_native_util_clamp(VALUE self, VALUE r_num, VALUE r_min, VALUE r_max) {
