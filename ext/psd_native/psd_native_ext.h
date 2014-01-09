@@ -4,7 +4,6 @@
 #include "ruby.h"
 
 #define RSTRING_NOT_MODIFIED
-#define PSD_CONCURRENCY 4
 
 // Pixels use 32 bits unsigned integers
 // We borrow this from OilyPNG
@@ -19,6 +18,7 @@ typedef uint32_t PIXEL;
 #include "image_mode_greyscale.h"
 #include "image_mode_rgb.h"
 #include "rle_decoding.h"
+#include "canvas.h"
 
 void Init_psd_native();
 // VALUE psd_class();

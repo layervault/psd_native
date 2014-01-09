@@ -59,6 +59,10 @@ void Init_psd_native() {
   VALUE ClippingMask = rb_define_module_under(Renderer, "ClippingMask");
   rb_define_method(ClippingMask, "apply!", psd_native_clipping_mask_apply_bang, 0);
 
+  // Canvas
+  VALUE Canvas = rb_define_module_under(Renderer, "Canvas");
+  rb_define_private_method(Canvas, "initialize_canvas", psd_native_initialize_canvas, 0);
+
   // Util
   VALUE Util = rb_define_module_under(PSDNative, "Util");
   rb_define_method(Util, "pad2", psd_native_util_pad2, 1);

@@ -13,6 +13,11 @@ module PSDNative
       remove_method :apply!
     end
     base::Renderer::ClippingMask.send(:include, PSDNative::Renderer::ClippingMask)
+
+    base::Renderer::Canvas.class_eval do
+      remove_method :initialize_canvas
+    end
+    base::Renderer::Canvas.send(:include, PSDNative::Renderer::Canvas)
   end
 end
 
