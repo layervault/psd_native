@@ -42,7 +42,7 @@ VALUE psd_native_clipping_mask_apply_bang(VALUE self) {
       }
 
       color = FIX2UINT(canvas_pixels[y * canvas_width + x]);
-      canvas_pixels[y * canvas_width + x] = INT2FIX((color & 0xffffff00) | (A(color) * alpha / 255));
+      rb_funcall(canvas, rb_intern("[]="), 3, INT2FIX(x), INT2FIX(y), INT2FIX((color & 0xffffff00) | (A(color) * alpha / 255)));
     }
   }
 
