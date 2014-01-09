@@ -9,10 +9,10 @@ module PSDNative
     base::Color.send(:include, PSDNative::Color)
     base::Util.extend PSDNative::Util
 
-    base::ClippingMask.class_eval do
-      remove_method :apply
+    base::Renderer::ClippingMask.class_eval do
+      remove_method :apply!
     end
-    base::ClippingMask.send(:include, PSDNative::ClippingMask)
+    base::Renderer::ClippingMask.send(:include, PSDNative::Renderer::ClippingMask)
   end
 end
 

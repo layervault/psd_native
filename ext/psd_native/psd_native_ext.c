@@ -52,8 +52,12 @@ void Init_psd_native() {
   rb_define_module_function(Compose, "difference", psd_native_compose_difference, 3);
   rb_define_module_function(Compose, "exclusion", psd_native_compose_exclusion, 3);
 
-  VALUE ClippingMask = rb_define_module_under(PSDNative, "ClippingMask");
-  rb_define_method(ClippingMask, "apply", psd_native_clipping_mask_apply, 0);
+  // Renderer
+  VALUE Renderer = rb_define_module_under(PSDNative, "Renderer");
+
+  // Clipping Mask
+  VALUE ClippingMask = rb_define_module_under(Renderer, "ClippingMask");
+  rb_define_method(ClippingMask, "apply!", psd_native_clipping_mask_apply_bang, 0);
 
   // Util
   VALUE Util = rb_define_module_under(PSDNative, "Util");
