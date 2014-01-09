@@ -19,7 +19,6 @@ typedef uint32_t PIXEL;
 #include "image_mode_greyscale.h"
 #include "image_mode_rgb.h"
 #include "rle_decoding.h"
-#include "build_preview.h"
 
 void Init_psd_native();
 // VALUE psd_class();
