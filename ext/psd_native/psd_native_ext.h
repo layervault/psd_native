@@ -19,6 +19,7 @@ typedef uint32_t PIXEL;
 #include "image_mode_rgb.h"
 #include "rle_decoding.h"
 #include "canvas.h"
+#include "blender.h"
 
 void Init_psd_native();
 // VALUE psd_class();

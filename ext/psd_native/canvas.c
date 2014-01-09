@@ -18,7 +18,7 @@ VALUE psd_native_initialize_canvas(VALUE self) {
         3, 
         INT2FIX(x), INT2FIX(y), pixel_data[i]
       );
-      
+
       i++;
     }
   }
@@ -26,4 +26,14 @@ VALUE psd_native_initialize_canvas(VALUE self) {
   rb_iv_set(self, "@pixel_data", Qnil);
 
   return Qnil;
+}
+
+VALUE* psd_canvas_to_pixel_array(VALUE canvas) {
+  return RARRAY_PTR(
+    rb_funcall(
+      rb_funcall(canvas, rb_intern("canvas"), 0),
+      rb_intern("pixels"),
+      0
+    )
+  );
 }

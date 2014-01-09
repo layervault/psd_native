@@ -9,9 +9,9 @@ VALUE psd_native_clipping_mask_apply_bang(VALUE self) {
   psd_logger("debug", "Applying clipping mask with native code");
 
   VALUE canvas = rb_iv_get(self, "@canvas");
-  VALUE* canvas_pixels = RARRAY_PTR(rb_funcall(rb_funcall(canvas, rb_intern("canvas"), 0), rb_intern("pixels"), 0));
+  VALUE* canvas_pixels = psd_canvas_to_pixel_array(canvas);
   VALUE mask = rb_iv_get(self, "@mask");
-  VALUE* mask_pixels = RARRAY_PTR(rb_funcall(rb_funcall(mask, rb_intern("canvas"), 0), rb_intern("pixels"), 0));
+  VALUE* mask_pixels = psd_canvas_to_pixel_array(mask);
 
   uint32_t canvas_width = FIX2UINT(rb_funcall(canvas, rb_intern("width"), 0));
   uint32_t canvas_height = FIX2UINT(rb_funcall(canvas, rb_intern("height"), 0));

@@ -63,6 +63,10 @@ void Init_psd_native() {
   VALUE Canvas = rb_define_module_under(Renderer, "Canvas");
   rb_define_private_method(Canvas, "initialize_canvas", psd_native_initialize_canvas, 0);
 
+  // Blender
+  VALUE Blender = rb_define_module_under(Renderer, "Blender");
+  rb_define_method(Blender, "compose!", psd_native_blender_compose_bang, 0);
+
   // Util
   VALUE Util = rb_define_module_under(PSDNative, "Util");
   rb_define_method(Util, "pad2", psd_native_util_pad2, 1);

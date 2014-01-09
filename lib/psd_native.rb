@@ -18,6 +18,11 @@ module PSDNative
       remove_method :initialize_canvas
     end
     base::Renderer::Canvas.send(:include, PSDNative::Renderer::Canvas)
+
+    base::Renderer::Blender.class_eval do
+      remove_method :compose!
+    end
+    base::Renderer::Blender.send(:include, PSDNative::Renderer::Blender)
   end
 end
 
