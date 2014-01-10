@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib", "ext"]
 
   # spec.add_runtime_dependency "psd", ">= 1.4.1"
+  spec.add_runtime_dependency "oily_png"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"

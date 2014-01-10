@@ -1,4 +1,5 @@
 require "psd"
+require "oily_png"
 
 module PSDNative
   def self.included(base)
