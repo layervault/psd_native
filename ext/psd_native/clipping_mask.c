@@ -22,9 +22,10 @@ VALUE psd_native_clipping_mask_apply_bang(VALUE self) {
   uint32_t mask_height = FIX2UINT(rb_funcall(mask, rb_intern("height"), 0));
   int mask_left = FIX2UINT(rb_funcall(mask, rb_intern("left"), 0));
   int mask_top = FIX2UINT(rb_funcall(mask, rb_intern("top"), 0));
+  uint32_t mask_pixel_length = mask_width * mask_height;
 
   int x, y, doc_x, doc_y, mask_x, mask_y;
-  uint32_t alpha, color;
+  uint32_t alpha, color, loc;
   VALUE pixel;
   for (y = 0; y < canvas_height; y++) {
     for (x = 0; x < canvas_width; x++) {
@@ -37,8 +38,14 @@ VALUE psd_native_clipping_mask_apply_bang(VALUE self) {
       if (mask_x < 0 || mask_x > mask_width || mask_y < 0 || mask_y > mask_height) {
         alpha = 0;
       } else {
-        pixel = mask_pixels[mask_y * mask_width + mask_x];
-        alpha = (pixel == Qnil ? 0 : A(FIX2UINT(pixel)));
+        loc = mask_y * mask_width + mask_x;
+
+        if (loc > mask_pixel_length) {
+          alpha = 0;
+        } else {
+          pixel = mask_pixels[loc];
+          alpha = A(FIX2UINT(pixel));
+        }
       }
 
       color = FIX2UINT(canvas_pixels[y * canvas_width + x]);
