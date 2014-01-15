@@ -20,8 +20,8 @@ VALUE psd_native_clipping_mask_apply_bang(VALUE self) {
 
   uint32_t mask_width = FIX2UINT(rb_funcall(mask, rb_intern("width"), 0));
   uint32_t mask_height = FIX2UINT(rb_funcall(mask, rb_intern("height"), 0));
-  int mask_left = FIX2UINT(rb_funcall(mask, rb_intern("left"), 0));
-  int mask_top = FIX2UINT(rb_funcall(mask, rb_intern("top"), 0));
+  int mask_left = FIX2INT(rb_funcall(mask, rb_intern("left"), 0));
+  int mask_top = FIX2INT(rb_funcall(mask, rb_intern("top"), 0));
   uint32_t mask_pixel_length = mask_width * mask_height;
 
   int x, y, doc_x, doc_y, mask_x, mask_y;
