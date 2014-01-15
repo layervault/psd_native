@@ -19,6 +19,8 @@ VALUE psd_native_combine_rgb_channel(VALUE self) {
     channel_ids[i] = FIX2INT(rb_hash_aref(channels_info[i], ID2SYM(rb_intern("id"))));
   }
 
+  VALUE pixel_data[num_pixels];
+
   // Loop through every pixel in the image
   for (i = 0; i < num_pixels; i += pixel_step) {
     color = 0x000000ff;
@@ -38,8 +40,10 @@ VALUE psd_native_combine_rgb_channel(VALUE self) {
       }
     }
 
-    rb_ary_push(rb_iv_get(self, "@pixel_data"), INT2FIX(color));
+    pixel_data[i] = INT2FIX(color);
   }
 
+  rb_iv_set(self, "@pixel_data", rb_ary_new4(num_pixels, pixel_data));
+  
   return Qnil;
 }
