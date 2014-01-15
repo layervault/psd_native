@@ -36,7 +36,7 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
     bg_height
   );
 
-  VALUE blending_mode = rb_funcall(rb_funcall(fg, rb_intern("node"), 0), rb_intern("blending_mode"), 0);
+  VALUE blending_mode = rb_intern_str(rb_funcall(rb_funcall(fg, rb_intern("node"), 0), rb_intern("blending_mode"), 0));
   VALUE options = rb_funcall(self, rb_intern("compose_options"), 0);
 
   int i, len, x, y, base_x, base_y;
@@ -54,7 +54,7 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
 
     bg_pixels[base_y * bg_width + base_x] = rb_funcall(
       Compose,
-      rb_intern_str(blending_mode),
+      blending_mode,
       3,
       fg_pixels[i],
       bg_pixels[base_y * bg_width + base_x],
