@@ -38,8 +38,6 @@ VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
 }
 
 VALUE psd_native_compose_multiply(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
-  // VALUE inspect = rb_funcall(r_fg, rb_intern("inspect"), 0);
-  // printf("%s\n", StringValueCStr(inspect));
   PIXEL fg = FIX2UINT(r_fg);
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
