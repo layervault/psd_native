@@ -32,8 +32,6 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
   int bg_width = FIX2INT(rb_funcall(bg, rb_intern("width"), 0));
 
   VALUE blending_mode = rb_funcall(rb_funcall(fg, rb_intern("node"), 0), rb_intern("blending_mode"), 0);
-  VALUE* fg_pixels = psd_canvas_to_pixel_array(fg);
-  VALUE* bg_pixels = psd_canvas_to_pixel_array(bg);
   VALUE options = rb_funcall(self, rb_intern("compose_options"), 0);
 
   int x, y, base_x, base_y;
@@ -51,8 +49,8 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
         Compose,
         rb_intern_str(blending_mode),
         3,
-        fg_pixels[y * fg_width + x],
-        bg_pixels[base_y * bg_width + base_x],
+        rb_funcall(fg, rb_intern("[]"), 2, INT2FIX(x), INT2FIX(y)),
+        rb_funcall(bg, rb_intern("[]"), 2, INT2FIX(base_x), INT2FIX(base_y)),
         options
       );
 

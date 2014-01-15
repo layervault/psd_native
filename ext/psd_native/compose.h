@@ -38,5 +38,6 @@ VALUE psd_native_compose_exclusion(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opt
 void calculate_alphas(uint32_t fg, uint32_t bg, VALUE *opts);
 uint32_t calculate_opacity(VALUE *opts);
 uint32_t blend_channel(uint32_t bg, uint32_t fg, uint32_t a);
+uint32_t apply_opacity(uint32_t, VALUE *);
 
 #endif

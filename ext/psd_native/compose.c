@@ -8,7 +8,7 @@ VALUE psd_native_compose_normal(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (OPAQUE(fg) || TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -25,7 +25,7 @@ VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -38,11 +38,13 @@ VALUE psd_native_compose_darken(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
 }
 
 VALUE psd_native_compose_multiply(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) {
+  // VALUE inspect = rb_funcall(r_fg, rb_intern("inspect"), 0);
+  // printf("%s\n", StringValueCStr(inspect));
   PIXEL fg = FIX2UINT(r_fg);
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -59,7 +61,7 @@ VALUE psd_native_compose_color_burn(VALUE self, VALUE r_fg, VALUE r_bg, VALUE op
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -85,7 +87,7 @@ VALUE psd_native_compose_linear_burn(VALUE self, VALUE r_fg, VALUE r_bg, VALUE o
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -102,7 +104,7 @@ VALUE psd_native_compose_lighten(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts)
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -119,7 +121,7 @@ VALUE psd_native_compose_screen(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts) 
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -136,7 +138,7 @@ VALUE psd_native_compose_color_dodge(VALUE self, VALUE r_fg, VALUE r_bg, VALUE o
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -161,7 +163,7 @@ VALUE psd_native_compose_linear_dodge(VALUE self, VALUE r_fg, VALUE r_bg, VALUE 
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -178,7 +180,7 @@ VALUE psd_native_compose_overlay(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts)
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -203,7 +205,7 @@ VALUE psd_native_compose_soft_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE op
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -226,7 +228,7 @@ VALUE psd_native_compose_hard_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE op
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -251,7 +253,7 @@ VALUE psd_native_compose_vivid_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE o
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -276,7 +278,7 @@ VALUE psd_native_compose_linear_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE 
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -301,7 +303,7 @@ VALUE psd_native_compose_pin_light(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opt
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -326,7 +328,7 @@ VALUE psd_native_compose_hard_mix(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opts
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -343,7 +345,7 @@ VALUE psd_native_compose_difference(VALUE self, VALUE r_fg, VALUE r_bg, VALUE op
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -360,7 +362,7 @@ VALUE psd_native_compose_exclusion(VALUE self, VALUE r_fg, VALUE r_bg, VALUE opt
   PIXEL bg = FIX2UINT(r_bg);
   PIXEL new_r, new_g, new_b;
 
-  if (TRANSPARENT(bg)) return r_fg;
+  if (TRANSPARENT(bg)) return INT2FIX(apply_opacity(fg, &opts));
   if (TRANSPARENT(fg)) return r_bg;
 
   calculate_alphas(fg, bg, &opts);
@@ -386,4 +388,9 @@ uint32_t calculate_opacity(VALUE *opts) {
   uint32_t fill_opacity = FIX2UINT(rb_hash_aref(*opts, ID2SYM(rb_intern("fill_opacity"))));
 
   return opacity * fill_opacity / 255;
+}
+
+PIXEL apply_opacity(PIXEL color, VALUE *opts) {
+  uint32_t opacity = calculate_opacity(opts);
+  return (color & 0xffffff00) | ((color & 0x000000ff) * opacity / 255);
 }
