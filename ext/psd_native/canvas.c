@@ -28,12 +28,10 @@ VALUE psd_native_initialize_canvas(VALUE self) {
   return Qnil;
 }
 
-VALUE* psd_canvas_to_pixel_array(VALUE canvas) {
-  return RARRAY_PTR(
-    rb_funcall(
-      rb_funcall(canvas, rb_intern("canvas"), 0),
-      rb_intern("pixels"),
-      0
-    )
+VALUE psd_canvas_to_pixel_array(VALUE canvas) {
+  return rb_funcall(
+    rb_funcall(canvas, rb_intern("canvas"), 0),
+    rb_intern("pixels"),
+    0
   );
 }

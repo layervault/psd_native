@@ -14,10 +14,9 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
   VALUE fg_canvas = rb_funcall(fg, rb_intern("canvas"), 0);
   VALUE bg_canvas = rb_funcall(bg, rb_intern("canvas"), 0);
 
-  // VALUE fg_pixels = rb_funcall(fg_canvas, rb_intern("pixels"), 0);
-  VALUE *bg_pixels = RARRAY_PTR(rb_funcall(bg_canvas, rb_intern("pixels"), 0));
+  VALUE fg_pixels = rb_funcall(fg_canvas, rb_intern("pixels"), 0);
+  VALUE bg_pixels = rb_funcall(bg_canvas, rb_intern("pixels"), 0);
 
-  int fg_height = FIX2INT(rb_funcall(fg, rb_intern("height"), 0));
   int fg_width = FIX2INT(rb_funcall(fg, rb_intern("width"), 0));
   int bg_height = FIX2INT(rb_funcall(bg, rb_intern("height"), 0));
   int bg_width = FIX2INT(rb_funcall(bg, rb_intern("width"), 0));
@@ -40,8 +39,8 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
   VALUE options = rb_funcall(self, rb_intern("compose_options"), 0);
 
   int i, len, x, y, base_x, base_y;
-
-  for (i = 0, len = (fg_height * fg_width); i < len; i++) {
+  VALUE color;
+  for (i = 0, len = RARRAY_LEN(fg_pixels); i < len; i++) {
     x = (i % fg_width);
     y = floor(i / fg_width);
 
@@ -52,14 +51,16 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
       continue;
     }
 
-    bg_pixels[base_y * bg_width + base_x] = rb_funcall(
+    color = rb_funcall(
       Compose,
       blending_mode,
       3,
       rb_funcall(fg_canvas, rb_intern("[]"), 2, INT2FIX(x), INT2FIX(y)),
-      bg_pixels[base_y * bg_width + base_x],
+      rb_ary_entry(bg_pixels, (base_y * bg_width + base_x)),
       options
     );
+
+    rb_ary_store(bg_pixels, base_y * bg_width + base_x, color);
   }
 
   return Qnil;

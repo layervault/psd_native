@@ -2,6 +2,6 @@
 #define PSD_NATIVE_CANVAS
 
 VALUE psd_native_initialize_canvas(VALUE self);
-VALUE* psd_canvas_to_pixel_array(VALUE canvas);
+VALUE psd_canvas_to_pixel_array(VALUE canvas);
 
 #endif
