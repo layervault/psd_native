@@ -3,8 +3,8 @@
 VALUE psd_native_layer_raw_parse_raw_bang(VALUE self) {
   psd_logger("debug", "Attempting to parse RAW encoded channel with native code...");
 
-  uint32_t chan_pos = rb_iv_get(self, "@chan_pos");
-  uint32_t chan_length = FIX2UINT(rb_hash_aref(rb_iv_get(self, "@ch_info"), ID2SYM(rb_intern("length"))));
+  int chan_pos = FIX2INT(rb_iv_get(self, "@chan_pos"));
+  int chan_length = FIX2INT(rb_hash_aref(rb_iv_get(self, "@ch_info"), ID2SYM(rb_intern("length"))));
   VALUE channel_data = rb_iv_get(self, "@channel_data");
 
   VALUE *data = RARRAY_PTR(psd_file_read_bytes(self, chan_length - 2));

@@ -16,6 +16,7 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
 
   VALUE fg_pixels = rb_funcall(fg_canvas, rb_intern("pixels"), 0);
   VALUE bg_pixels = rb_funcall(bg_canvas, rb_intern("pixels"), 0);
+  VALUE *bg_pixels_ptr = RARRAY_PTR(bg_pixels);
 
   int fg_width = FIX2INT(rb_funcall(fg, rb_intern("width"), 0));
   int bg_height = FIX2INT(rb_funcall(bg, rb_intern("height"), 0));
@@ -56,7 +57,7 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
       blending_mode,
       3,
       rb_funcall(fg_canvas, rb_intern("[]"), 2, INT2FIX(x), INT2FIX(y)),
-      rb_ary_entry(bg_pixels, (base_y * bg_width + base_x)),
+      bg_pixels_ptr[base_y * bg_width + base_x],
       options
     );
 
