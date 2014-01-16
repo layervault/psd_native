@@ -11,7 +11,7 @@ VALUE psd_native_clipping_mask_apply_bang(VALUE self) {
   VALUE canvas = rb_iv_get(self, "@canvas");
   VALUE canvas_pixels = psd_canvas_to_pixel_array(canvas);
   VALUE mask = rb_iv_get(self, "@mask");
-  VALUE mask_pixels = psd_canvas_to_pixel_array(mask);
+  VALUE *mask_pixels = RARRAY_PTR(psd_canvas_to_pixel_array(mask));
 
   uint32_t canvas_width = FIX2UINT(rb_funcall(canvas, rb_intern("width"), 0));
   uint32_t canvas_height = FIX2UINT(rb_funcall(canvas, rb_intern("height"), 0));
@@ -43,14 +43,13 @@ VALUE psd_native_clipping_mask_apply_bang(VALUE self) {
         if (loc > mask_pixel_length) {
           alpha = 0;
         } else {
-          pixel = rb_ary_entry(mask_pixels, loc);
+          pixel = mask_pixels[loc];
           alpha = A(FIX2UINT(pixel));
         }
       }
 
       color = FIX2UINT(rb_ary_entry(canvas_pixels, y * canvas_width + x));
       rb_ary_store(canvas_pixels, y * canvas_width + x, INT2FIX((color & 0xffffff00) | (A(color) * alpha / 255)));
-      // rb_funcall(canvas, rb_intern("[]="), 3, INT2FIX(x), INT2FIX(y), INT2FIX((color & 0xffffff00) | (A(color) * alpha / 255)));
     }
   }
 

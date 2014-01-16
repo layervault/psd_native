@@ -11,6 +11,7 @@ typedef uint32_t PIXEL;
 
 // Our native mixins
 #include "util.h"
+#include "file.h"
 #include "color.h"
 #include "clipping_mask.h"
 #include "compose.h"
@@ -20,11 +21,10 @@ typedef uint32_t PIXEL;
 #include "rle_decoding.h"
 #include "canvas.h"
 #include "blender.h"
+#include "layer_raw.h"
 
 void Init_psd_native();
 // VALUE psd_class();
 void psd_logger(char* level, char* message);
-VALUE psd_file(VALUE self);
-int psd_file_tell(VALUE self);
 
 #endif
