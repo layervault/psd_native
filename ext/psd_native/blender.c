@@ -14,7 +14,7 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
   VALUE fg_canvas = rb_funcall(fg, rb_intern("canvas"), 0);
   VALUE bg_canvas = rb_funcall(bg, rb_intern("canvas"), 0);
 
-  VALUE *fg_pixels = RARRAY_PTR(rb_funcall(fg_canvas, rb_intern("pixels"), 0));
+  VALUE fg_pixels = rb_funcall(fg_canvas, rb_intern("pixels"), 0);
   VALUE *bg_pixels = RARRAY_PTR(rb_funcall(bg_canvas, rb_intern("pixels"), 0));
 
   int fg_height = FIX2INT(rb_funcall(fg, rb_intern("height"), 0));
@@ -39,11 +39,14 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
   VALUE blending_mode = rb_intern_str(rb_funcall(rb_funcall(fg, rb_intern("node"), 0), rb_intern("blending_mode"), 0));
   VALUE options = rb_funcall(self, rb_intern("compose_options"), 0);
 
-  int i, len, base_x, base_y;
+  int i, len, x, y, base_x, base_y;
 
   for (i = 0, len = (fg_height * fg_width); i < len; i++) {
-    base_x = (i % fg_width) + offset_x;
-    base_y = floor(i / fg_width) + offset_y;
+    x = (i % fg_width);
+    y = floor(i / fg_width);
+
+    base_x = x + offset_x;
+    base_y = y + offset_y;
 
     if (base_x < 0 || base_y < 0 || base_x >= bg_width || base_y >= bg_height) {
       continue;
@@ -53,7 +56,7 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
       Compose,
       blending_mode,
       3,
-      fg_pixels[i],
+      rb_funcall(fg_canvas, rb_intern("[]"), 2, INT2FIX(x), INT2FIX(y)),
       bg_pixels[base_y * bg_width + base_x],
       options
     );
