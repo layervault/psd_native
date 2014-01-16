@@ -43,7 +43,7 @@ VALUE psd_native_combine_rgb_channel(VALUE self) {
     pixel_data[i] = INT2FIX(color);
   }
 
-  rb_iv_set(self, "@pixel_data", rb_ary_new4(num_pixels, pixel_data));
+  rb_iv_set(self, "@pixel_data", rb_ary_new4(num_pixels, &pixel_data[0]));
   
   return Qnil;
 }
