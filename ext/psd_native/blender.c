@@ -22,19 +22,8 @@ VALUE psd_native_blender_compose_bang(VALUE self) {
   int bg_height = FIX2INT(rb_funcall(bg, rb_intern("height"), 0));
   int bg_width = FIX2INT(rb_funcall(bg, rb_intern("width"), 0));
 
-  int offset_x = psd_clamp_int(
-    FIX2INT(rb_funcall(fg, rb_intern("left"), 0)) -
-    FIX2INT(rb_funcall(bg, rb_intern("left"), 0)),
-    0,
-    bg_width
-  );
-
-  int offset_y = psd_clamp_int(
-    FIX2INT(rb_funcall(fg, rb_intern("top"), 0)) -
-    FIX2INT(rb_funcall(bg, rb_intern("top"), 0)),
-    0,
-    bg_height
-  );
+  int offset_x = FIX2INT(rb_funcall(fg, rb_intern("left"), 0)) - FIX2INT(rb_funcall(bg, rb_intern("left"), 0));
+  int offset_y = FIX2INT(rb_funcall(fg, rb_intern("top"), 0)) - FIX2INT(rb_funcall(bg, rb_intern("top"), 0));
 
   VALUE blending_mode = rb_intern_str(rb_funcall(rb_funcall(fg, rb_intern("node"), 0), rb_intern("blending_mode"), 0));
   VALUE options = rb_funcall(self, rb_intern("compose_options"), 0);
