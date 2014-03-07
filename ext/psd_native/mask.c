@@ -31,8 +31,8 @@ VALUE psd_native_mask_apply_bang(VALUE self) {
       layer_x = doc_x - layer_left;
       layer_y = doc_y - layer_top;
 
-      if (layer_x < 0 || layer_x > layer_width || layer_y < 0 || layer_y > layer_height) continue;
-      
+      if (layer_x < 0 || layer_x >= layer_width || layer_y < 0 || layer_y >= layer_height) continue;
+
       color = FIX2UINT(rb_funcall(canvas, rb_intern("[]"), 2, INT2FIX(layer_x), INT2FIX(layer_y)));
 
       if (doc_x < 0 || doc_x >= doc_width || doc_y < 0 || doc_y > doc_height) {
