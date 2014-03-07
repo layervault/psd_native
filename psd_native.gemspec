@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.extensions    = ["ext/psd_native/extconf.rb"]
   spec.require_paths = ["lib", "ext"]
 
-  spec.add_runtime_dependency "psd", "~> 2.1.1"
+  spec.add_runtime_dependency "psd", ">= 2.1.1"
   spec.add_runtime_dependency "oily_png", "~> 1.1"
 
   spec.add_development_dependency "bundler", "~> 1.3"
