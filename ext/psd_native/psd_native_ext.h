@@ -14,6 +14,7 @@ typedef uint32_t PIXEL;
 #include "file.h"
 #include "color.h"
 #include "clipping_mask.h"
+#include "mask.h"
 #include "compose.h"
 #include "image_mode_cmyk.h"
 #include "image_mode_greyscale.h"

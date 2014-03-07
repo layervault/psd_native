@@ -63,6 +63,10 @@ void Init_psd_native() {
   VALUE ClippingMask = rb_define_module_under(Renderer, "ClippingMask");
   rb_define_method(ClippingMask, "apply!", psd_native_clipping_mask_apply_bang, 0);
 
+  // Mask
+  VALUE Mask = rb_define_module_under(Renderer, "Mask");
+  rb_define_method(Mask, "apply!", psd_native_mask_apply_bang, 0);
+
   // Blender
   VALUE Blender = rb_define_module_under(Renderer, "Blender");
   rb_define_method(Blender, "compose!", psd_native_blender_compose_bang, 0);
