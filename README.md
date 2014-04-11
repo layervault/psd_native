@@ -2,17 +2,9 @@
 
 [![Travis CI](https://travis-ci.org/layervault/psd_native.png)](https://travis-ci.org/layervault/psd_native)
 
-A gem that includes multiple mixins that speed up [PSD.rb](https://github.com/layervault/psd.rb) by delegating certain parts of the library to native C code. This library allows for PSD.rb to function as a pure Ruby library, while allowing for optional native code speed improvements. It overwrites specific methods within PSD.rb transparently, so you can use PSD.rb like normal.
+PSD Native is a native extension to PSD.rb that includes speed enhancements finely tuned for production environments. PSD Native introduces no new features to PSD.rb, only speed improvements via native C code. For most larger files, you will see speed increases of 50x or more.
 
-Currently, PSDNative replaces these sections of PSD.rb with native code:
-
-* RGB processing
-* CMYK processing
-* Greyscale processing
-* RLE decoding
-* Some color conversions
-* Color composition
-* Clipping masks
+The code in this repository is no longer updated, but is still available under the MIT license. If you are interested in licensing PSD Native for a monthly fee in order to access future updates, [please contact us](mailto:sales@layervault.com).
 
 ## Installation
 
