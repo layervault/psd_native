@@ -38,7 +38,7 @@ VALUE psd_native_mask_apply_bang(VALUE self) {
       if (doc_x < 0 || doc_x >= doc_width || doc_y < 0 || doc_y > doc_height) {
         alpha = 0;
       } else {
-        alpha = mask_data[i];
+        alpha = FIX2INT(mask_data[i]);
       }
 
       color = (color & 0xffffff00) | (A(color) * alpha / 255);

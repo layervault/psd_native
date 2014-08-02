@@ -1,7 +1,8 @@
 #include "psd_native_ext.h"
 
 VALUE psd_native_decode_rle_channel(VALUE self) {
-  int bytes, len, val;
+  VALUE val;
+  int bytes, len;
   int i, j, k, l;
 
   int height = FIX2INT(rb_funcall(self, rb_intern("height"), 0));
